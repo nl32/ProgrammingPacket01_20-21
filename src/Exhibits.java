@@ -29,24 +29,23 @@ public class Exhibits {
 	public static List<String> closest(int x,int y, String[][] map){
 		List<String> points = new ArrayList<>();
 		Queue<Point> queue = new LinkedList();
-		Map<Point,Boolean> visited = new HashMap<>();
+		Set<Point> visited = new HashSet<>();
 		queue.add(new Point(x,y));
 		while(queue.size()!=0&&points.size()==0){
 			int level = queue.size();
 			for (int i = 0; i < level; i++) {
 				Point current = queue.remove();
-				if (current.x < 10 && current.x > 0 && current.y < 10 && current.y > 0) {
-					if (!visited.containsKey(current) || visited.containsKey(current) && !visited.get(current)) {
-						visited.put(current, true);
+				if (current.x < 10 && current.x > -1 && current.y < 10 && current.y > -1) {
+					if (!visited.contains(current) ) {
+						visited.add(current);
 						if (map[current.x][current.y].matches("[a-zA-Z]")) {
 							points.add(map[current.x][current.y]);
 						}
-						if (map[current.x][current.y].equals("#")) {
-						} else {
-							queue.add(new Point(x - 1, y));
-							queue.add(new Point(x + 1, y));
-							queue.add(new Point(x, y - 1));
-							queue.add(new Point(x, y + 1));
+						if (!map[current.x][current.y].equals("#")) {
+							queue.add(new Point(current.x - 1, current.y));
+							queue.add(new Point(current.x + 1, current.y));
+							queue.add(new Point(current.x, current.y - 1));
+							queue.add(new Point(current.x, current.y + 1));
 						}
 					}
 				}
