@@ -14,17 +14,21 @@ public class Exhibits {
 			for (int j = 0; j < 10; j++) {
 				map[j] = scanner.nextLine().split("");
 			}
+			boolean yar = true;
 			for (int j = 0; j < x; j++) {
 				String[] p = scanner.nextLine().split(",");
-				List<String> closest = closest(Integer.valueOf(p[0]),Integer.valueOf(p[1]),map);
-				if(closest.size()!=0){
-					System.out.println("the exhibits(s) closest are:");
-					for (String s : closest) {
-						System.out.print(s + " ");
+				if(yar) {
+					List<String> closest = closest(Integer.valueOf(p[0]), Integer.valueOf(p[1]), map);
+					if (closest.size() != 0) {
+						System.out.println("the exhibits(s) closest are:");
+						for (String s : closest) {
+							System.out.print(s + " ");
+						}
+						System.out.println();
+					} else {
+						System.out.println("Oops, sorry we're out of dinosaurs here!");
+						yar = false;
 					}
-					System.out.println();
-				}else {
-					System.out.println("Oops, sorry we're out of dinosaurs here!");
 				}
 			}
 		}
