@@ -20,11 +20,11 @@ public class Exhibits {
 				if(yar) {
 					List<String> closest = closest(Integer.valueOf(p[0]), Integer.valueOf(p[1]), map);
 					if (closest.size() != 0) {
-						System.out.println("the exhibits(s) closest are:");
+						System.out.println("the exhibit(s) closest are:");
 						for (String s : closest) {
 							System.out.print(s + " ");
 						}
-						System.out.println();
+						if(j!=x-1||i!=n-1)System.out.println();
 					} else {
 						System.out.println("Oops, sorry we're out of dinosaurs here!");
 						yar = false;
@@ -50,10 +50,10 @@ public class Exhibits {
 							points.add(map[current.x][current.y]);
 						}
 						if (!map[current.x][current.y].equals("#")) {
-							queue.add(new Point(current.x - 1, current.y));
 							queue.add(new Point(current.x + 1, current.y));
-							queue.add(new Point(current.x, current.y - 1));
+							queue.add(new Point(current.x - 1, current.y));
 							queue.add(new Point(current.x, current.y + 1));
+							queue.add(new Point(current.x, current.y - 1));
 						}
 					}
 				}
