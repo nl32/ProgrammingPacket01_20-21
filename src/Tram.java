@@ -29,7 +29,11 @@ public class Tram {
 			String end = s[1];
 			Map<String,Integer> nodes = GetShortestPath(graph,start);
 			for (String node : nodes.keySet()) {
-				if(node.equals(end)){
+				if (node.equals(end)) {
+					if(nodes.get(node)==Integer.MAX_VALUE){
+						System.out.println("get to walkin pard'ner");
+						break;
+					}
 					System.out.println(nodes.get(node));
 					break;
 				}
@@ -37,65 +41,30 @@ public class Tram {
 		}
 	}
 	public static Map<String,Integer> GetShortestPath(Map<String,Map<String,Integer>> graph, String start){
-		PriorityQueue<Node> minHeap = new PriorityQueue<>();
-		Map<String,Integer> distance = new HashMap<>();
-		Map<String,Boolean> visited = new HashMap<>();
-		minHeap.add(new Node(start,0));
-		while(minHeap.size()!=0){
-			Node curr = minHeap.poll();
-			distance.put(curr.getName(),curr.getDistance());
-			for (String neighbor : graph.get(curr.getName()).keySet()) {
-				int dist = graph.get(curr.getName()).get(neighbor);
-				Node node = new Node(neighbor,dist+curr.getDistance());
-				if(!visited.containsKey(node.getName())){
-					minHeap.add(node.setDistance(Math.min(node.getDistance(),
-							distance.containsKey(node.getName())?distance.get(node.getName()):Integer.MAX_VALUE)));
-					visited.put(node.getName(),true);
-				}
+		Map<String,Integer> distances = new HashMap<>();
+		Map<String,Boolean> marked = new HashMap<>();
+		for (String s : graph.keySet()) {
+			distances.put(s,Integer.MAX_VALUE);
+			marked.put(s,false);
+		}
+		distances.put(start,0);
+		for (String s : distances.keySet()) {
+			String v = "";
+			for (String t : distances.keySet()) {
+				if(!marked.get(t) && (v.equals("") || distances.get(t)< distances.get(v)))
+					v=t;
+			}
+			if(distances.get(v)==Integer.MAX_VALUE){
+				break;
+			}
+			marked.put(v,true);
+			for (String to : graph.get(v).keySet()) {
+				int len = graph.get(v).get(to);
+				if(distances.get(v) + len < distances.get(to))
+					distances.put(to, distances.get(v)+len);
 			}
 		}
-		return distance;
+		return distances;
 	}
 
 }
-class Node implements Comparable<Node>{
-	private String name;
-	private int distance;
-	public Node(String name, int distance){
-		this.name = name;
-		this.distance = distance;
-	}
-
-	public Node setDistance(int distance) {
-		this.distance = distance;
-		return this;
-	}
-
-	public int getDistance() {
-		return distance;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public int compareTo(Node o) {
-		return o.distance-this.distance;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if(obj instanceof Node){
-			if(this.name==((Node) obj).name)
-				return true;
-		}
-		return super.equals(obj);
-	}
-}
-
-

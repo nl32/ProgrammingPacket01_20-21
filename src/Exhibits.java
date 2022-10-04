@@ -15,13 +15,17 @@ public class Exhibits {
 				map[j] = scanner.nextLine().split("");
 			}
 			for (int j = 0; j < x; j++) {
-				System.out.println("the exhibits(s) closest are:");
 				String[] p = scanner.nextLine().split(",");
 				List<String> closest = closest(Integer.valueOf(p[0]),Integer.valueOf(p[1]),map);
-				for (String s : closest) {
-					System.out.print(s + " ");
+				if(closest.size()!=0){
+					System.out.println("the exhibits(s) closest are:");
+					for (String s : closest) {
+						System.out.print(s + " ");
+					}
+					System.out.println();
+				}else {
+					System.out.println("Oops, sorry we're out of dinosaurs here!");
 				}
-				System.out.println();
 			}
 		}
 
